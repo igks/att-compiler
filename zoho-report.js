@@ -34,5 +34,6 @@ export async function createZohoReport(data, period) {
       description: ''
     });
   }
-  await workbook.xlsx.writeFile(`${Config.directory}gusti-zr-${period}.xlsx`);
+  const timestamp = Date.now();
+  await workbook.xlsx.writeFile(`${Config.directory}gusti-zr-${period}-${timestamp}.xlsx`);
 }

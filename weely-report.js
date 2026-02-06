@@ -16,5 +16,6 @@ export async function createWeeklyReport(data, period) {
     const detail = extractDetails(row);
     sheet.addRow({date: formatDate(row.Day), item: detail, hour: row.Time});
   }
-  await workbook.xlsx.writeFile(`${Config.directory}gusti-wr-${period}.xlsx`);
+  const timestamp = Date.now();
+  await workbook.xlsx.writeFile(`${Config.directory}gusti-wr-${period}-${timestamp}.xlsx`);
 }
