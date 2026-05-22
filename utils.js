@@ -11,6 +11,12 @@ export function extractDetails(row) {
   return ticket ? `[${ticket}]: ${task} ${comment}` : `${task} ${comment}`;
 }
 
+export function extractDetailsTempo(row) {
+  
+  const comment = row.Comments ? `- ${row.Comments}` : "";
+  return ticket ? `[${ticket}]: ${task} ${comment}` : `${task} ${comment}`;
+}
+
 export function decimalToHHmm(decimalHours) {
   const totalMinutes = Math.round(decimalHours * 60);
   const hours = Math.floor(totalMinutes / 60);

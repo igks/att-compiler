@@ -20,7 +20,7 @@ export async function createZohoReport(data, period) {
   ];
 
   for(let row of data) {
-    const detail = extractDetails(row);
+    const detail = Config.filename === 'tempo.csv' ? extractDetailsTempo(row) : extractDetails(row);
     sheet.addRow({
       project: Config.client,
       job: Config.client,

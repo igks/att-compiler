@@ -6,8 +6,10 @@ import { Config } from "./config.js";
 
 const results = [];
 const filePath = `${Config.directory}${Config.filename}`;
+const skipLines = Config.filename === 'tempo.csv' ? 0 : 2;
+
 fs.createReadStream(filePath)
-  .pipe(csv({skipLines: 2}))
+  .pipe(csv({skipLines: skipLines}))
   .on("data", (data) => {
     data.Time = parseFloat(data.Time);
     results.push(data);
@@ -19,7 +21,7 @@ fs.createReadStream(filePath)
     const sortedResults = results.sort((a, b) => new Date(a.Day) - new Date(b.Day));
 
     await createWeeklyReport(sortedResults, yyyymmdd);
-    await createZohoReport(sortedResults, yyyymmdd);
+    // await createZohoReport(sortedResults, yyyymmdd);
 
     console.log("Excel files generated 🎉");
   });
