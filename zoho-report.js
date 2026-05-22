@@ -1,6 +1,6 @@
 import { Config } from "./config.js";
-import { decimalToHHmm, extractDetails, formatDate } from "./utils.js";
 import ExcelJS from "exceljs";
+import { decimalToHHmm } from "./utils.js";
 
 export async function createZohoReport(data, period) {
   const workbook = new ExcelJS.Workbook();
@@ -20,20 +20,19 @@ export async function createZohoReport(data, period) {
   ];
 
   for(let row of data) {
-    const detail = Config.filename === 'tempo.csv' ? extractDetailsTempo(row) : extractDetails(row);
     sheet.addRow({
       project: Config.client,
       job: Config.client,
-      item: detail,
+      item: row.workItem,
       mail: Config.email,
       employee: Config.empId,
-      date: formatDate(row.Day),
+      date: row.date,
       fromTime: '',
       toTime: '',
-      hour: decimalToHHmm(row.Time),
-      description: ''
+      hour: decimalToHHmm(row.hour),
+      description: row.workItem
     });
   }
   const timestamp = Date.now();
-  await workbook.xlsx.writeFile(`${Config.directory}gusti-zr-${period}-${timestamp}.xlsx`);
+  await workbook.xlsx.writeFile(`${Config.directory}/gusti-zr-${period}-${timestamp}.xlsx`);
 }

@@ -1,20 +1,18 @@
 
 export function formatDate(input) {
-  const [year, month, day] = input.split("-");
+  const [date, time] = input.split(" ");
+  const [year, month, day] = date.split("-");
   const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
   return `${day}-${months[Number(month) - 1]}-${year}`;
 }
 
-export function extractDetails(row) {
-  const [task, ticket] = row.Task.split(" #");
-  const comment = row.Comments ? `- ${row.Comments}` : "";
-  return ticket ? `[${ticket}]: ${task} ${comment}` : `${task} ${comment}`;
-}
-
-export function extractDetailsTempo(row) {
-  
-  const comment = row.Comments ? `- ${row.Comments}` : "";
-  return ticket ? `[${ticket}]: ${task} ${comment}` : `${task} ${comment}`;
+export function extractTempo(rows) {
+  const data = rows.map(row =>({
+    date: formatDate(row['Work date']),
+    hour: row['Logged Hours'],
+    workItem: row['Work Item Key'] + ": " + row['Work Item summary'] + " - " + row['Work Description']
+  }));
+  return data.sort((a, b) => new Date(a.date) - new Date(b.date));
 }
 
 export function decimalToHHmm(decimalHours) {
