@@ -3,7 +3,7 @@ export const Config = {
   directory: '/Users/sigkd/quartex/attendance/tempo',
   filename: 'tempo.csv', //'everhour.csv',
   skipHeader: 0,
-  client: 'Quartex',
+  client: 'Quartex - RD',
   email: 'gusti.sugiantara@devstack.com.au',
   empId: '84'
 }

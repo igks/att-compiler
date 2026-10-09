@@ -2,16 +2,25 @@
 export function formatDate(input) {
   const [date, time] = input.split(" ");
   const [year, month, day] = date.split("-");
-  const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-  return `${day}-${months[Number(month) - 1]}-${year}`;
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  return {
+    ddmmmyyyy: `${day}-${months[Number(month) - 1]}-${year}`,
+    yyyymmdd: date
+  }
 }
 
 export function extractTempo(rows) {
-  const data = rows.map(row =>({
-    date: formatDate(row['Work date']),
-    hour: row['Logged Hours'],
-    workItem: row['Work Item Key'] + ": " + row['Work Item summary'] + " - " + row['Work Description']
-  }));
+  const data = rows.map(row => {
+    const { ddmmmyyyy, yyyymmdd } = formatDate(row['Work date']);
+
+    return {
+      date: ddmmmyyyy,
+      dateOrg: yyyymmdd,
+      hour: row['Logged Hours'],
+      workItem: row['Work Item Key'] + ": " + row['Work Item summary'] + " - " + row['Work Description']
+    }
+  });
+
   return data.sort((a, b) => new Date(a.date) - new Date(b.date));
 }
 

@@ -4,6 +4,7 @@ import { createWeeklyReport } from "./weely-report.js";
 import { createZohoReport } from "./zoho-report.js";
 import { Config } from "./config.js";
 import { extractTempo } from "./utils.js";
+import { createDsErpReport } from "./ds-erp-report.js";
 
 const results = [];
 const filePath = `${Config.directory}/${Config.filename}`;
@@ -31,7 +32,7 @@ fs.createReadStream(filePath)
 
     const data = Config.source === 'tempo' ? extractTempo(sanitizedResult) : sanitizedResult;
     await createWeeklyReport(data, yyyymmdd);
-    await createZohoReport(data, yyyymmdd);
+    await createDsErpReport(data, yyyymmdd);
 
     console.log("Excel files generated 🎉");
   });
