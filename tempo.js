@@ -1,7 +1,6 @@
 import fs from "fs";
 import csv from "csv-parser";
 import { createWeeklyReport } from "./weely-report.js";
-import { createZohoReport } from "./zoho-report.js";
 import { Config } from "./config.js";
 import { extractTempo } from "./utils.js";
 import { createDsErpReport } from "./ds-erp-report.js";
@@ -34,6 +33,6 @@ fs.createReadStream(filePath)
     await createWeeklyReport(data, yyyymmdd);
     await createDsErpReport(data, yyyymmdd);
 
-    console.log("Excel files generated 🎉");
+    console.log("CSV files generated 🎉");
   });
 

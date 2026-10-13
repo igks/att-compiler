@@ -1,26 +1,21 @@
 import { Config } from "./config.js";
-import ExcelJS from "exceljs";
-import { decimalToHHmm } from "./utils.js";
+import { writeCsv } from "./csv-writer.js";
 
 export async function createDsErpReport(data, period) {
-  const workbook = new ExcelJS.Workbook();
-  const sheet = workbook.addWorksheet(`ds-erp-${period}`);
-  								
-  sheet.columns = [
+  const columns = [
     { header: "Project Name", key: "project" },
     { header: "Task", key: "task" },
     { header: "Date", key: "date" },
     { header: "Hours", key: "hour" }
   ];
 
-  for(let row of data) {
-    sheet.addRow({
-      project: Config.client,
-      task: row.workItem,
-      date: row.dateOrg,
-      hour: decimalToHHmm(row.hour),
-    });
-  }
+  const rows = data.map(row => ({
+    project: Config.client,
+    task: row.workItem,
+    date: row.dateOrg,
+    hour: Number(row.hour),
+  }));
+
   const timestamp = Date.now();
-  await workbook.csv.writeFile(`${Config.directory}/gusti-ds-erp-${period}-${timestamp}.csv`);
+  await writeCsv(`${Config.directory}/gusti-ds-erp-${period}-${timestamp}.csv`, columns, rows);
 }
